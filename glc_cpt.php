@@ -1,5 +1,7 @@
 <?php
 
+define( 'MYPLUGIN_FOLDER', dirname( __FILE__ ) . '/' );
+
 /**
  * Init taxonomy "Photographer"
  */

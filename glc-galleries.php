@@ -13,5 +13,5 @@ include "templates/filter.php";
 /**
  * TODO
  * Galleries Overview: http://themenectar.com/demo/salient-ascend/portfolio-fullwidth-default/
- * Gallery overview (showing images): http://themenectar.com/demo/salient-ascend/portfolio-fullwidth-style-three/
+ * Gallery overview (showing images): http://themenectar.com/demo/salient-ascend/portfolio-4-columns/
  */

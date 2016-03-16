@@ -26,48 +26,22 @@ $infinite_scroll_class = null;
                         </div><!--/row-->
 
 
-                        <div class="row">
-                            <div class="col elastic-portfolio-item element">
-                                <div class="inner-wrap animated">
-                                    <div class="work-item style-1">
-                                        <?php
-                                        $images = get_post_gallery_images($post->ID);
-
-                                        foreach($images as $image): ?>
-                                            <div class="col span_3  element applications illustration  one-fourths clear-both">
-
-                                                <div class="inner-wrap" data-animation="none">
+                        <?php
+                        $images = get_post_gallery_images($post->ID); ?>
 
 
-                                                    <div class="work-item style-2" data-custom-content="">
-
-                                                        <img width="600" height="403" src="http://themenectar.com/demo/salient-ascend/wp-content/uploads/2014/07/1r2DXHY-600x403.jpg" class="attachment-portfolio-thumb size-portfolio-thumb wp-post-image" alt="SAMSUNG CSC" title="" style="height: 194px;">
-                                                        <div class="work-info-bg" style="opacity: 0;"></div>
-                                                        <div class="work-info" style="opacity: 0;">
-
-
-
-
-                                                            <a href="http://www.youtube.com/user/ThemeNectar" target="_blank"></a>
-
-
-
-                                                            <div class="vert-center" style="margin-top: -20px;">
-
-                                                                <h3 style="opacity: 0;">The Mountains</h3>
-                                                                <p style="opacity: 0;">External Link Example</p>									</div><!--/vert-center-->
-
-                                                        </div>
-                                                    </div><!--work-item-->
-
-
-
-                                                </div><!--/inner-wrap-->
-                                            </div>
-                                        <?php endforeach; ?>
+                        <div class="row portfolio-items" data-categories-to-show="0">
+                            <?php foreach($images as $image): ?>
+                            <div class="col span_3  element applications illustration  one-fourths clear-both" data-title-color="0" data-subtitle-color="0">
+                                <div class="inner-wrap" data-animation="none">
+                                    <div class="work-item style-2" data-custom-content="">
+                                        <img width="600" height="403" src="<?php echo $image; ?>" class="attachment-portfolio-thumb size-portfolio-thumb wp-post-image" alt="SAMSUNG CSC" title="" style="height: 194px;">
+                                        <div class="work-info-bg" style="opacity: 0;"></div>
+                                        <!--/vert-center-->
                                     </div>
-                                </div>
-                            </div>
+                                </div><!--work-item-->
+                            </div><!--/inner-wrap-->
+                            <?php endforeach; ?>
                         </div>
 
                         <?php endif; ?>

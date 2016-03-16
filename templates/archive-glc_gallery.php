@@ -6,15 +6,6 @@
  */
 get_header();
 
-$options = get_nectar_theme_options();
-$project_style = '1';
-//$infinite_scroll_class = null;
-$lightbox_only = false;
-
-$display_sortable = get_post_meta($post->ID, 'nectar-metabox-portfolio-display-sortable', true);
-$bg = get_post_meta($post->ID, '_nectar_header_bg', true);
-//disable masonry for default project style fullwidth
-
 ?>
 <?php nectar_page_header($post->ID); ?>
 
@@ -28,7 +19,6 @@ $bg = get_post_meta($post->ID, '_nectar_header_bg', true);
                  data-col-num="elastic">
 
                 <?php
-
                 $portfolio = array(
                     'posts_per_page' => $posts_per_page,
                     'post_type' => 'glc_gallery',
@@ -39,42 +29,15 @@ $bg = get_post_meta($post->ID, '_nectar_header_bg', true);
 
                 if (have_posts()) : while (have_posts()) : the_post();
 
-                    $terms = get_the_terms($post->id, "project-type");
-                    $project_cats = NULL;
-
-                    if (!empty($terms)) {
-                        foreach ($terms as $term) {
-                            $project_cats .= strtolower($term->slug) . ' ';
-                        }
-                    }
-
-                    $custom_project_link = get_post_meta($post->ID, '_nectar_external_project_url', true);
-                    $the_project_link = (!empty($custom_project_link)) ? $custom_project_link : get_permalink();
-
-                    //TODO
-                    $project_accent_color = get_post_meta($post->ID, '_nectar_project_accent_color', true);
-                    $project_title_color = get_post_meta($post->ID, '_nectar_project_title_color', true);
-                    $project_subtitle_color = get_post_meta($post->ID, '_nectar_project_subtitle_color', true);
+                    $the_project_link = get_permalink();
                     ?>
 
                     <div
-                        class="col elastic-portfolio-item element"
-                        <?php if (!empty($project_accent_color)) {
-                            echo 'data-project-color="' . $project_accent_color . '"';
-                        } else {
-                            echo 'data-default-color="true"';
-                        } ?> data-title-color="<?php echo $project_title_color; ?>"
-                        data-subtitle-color="<?php echo $project_subtitle_color; ?>">
+                        class="col elastic-portfolio-item element" data-default-color="true"';>
 
                         <div class="inner-wrap animated">
 
-                            <?php //project style 1
-
-                            $using_custom_content = get_post_meta($post->ID, '_nectar_portfolio_custom_grid_item', true);
-                            $custom_content = get_post_meta($post->ID, '_nectar_portfolio_custom_grid_item_content', true); ?>
-
-                            <div class="work-item style-1"
-                                 data-custom-content="<?php echo $using_custom_content; ?>">
+                            <div class="work-item style-1">
 
                                 <?php
 
@@ -109,22 +72,11 @@ $bg = get_post_meta($post->ID, '_nectar_header_bg', true);
                                 <div class="work-info-bg"></div>
                                 <div class="work-info">
 
-                                    <?php
-                                    //custom content
-                                    if ($using_custom_content == 'on') {
-                                        if (!empty($custom_project_link)) echo '<a href="' . $the_project_link . '"></a>';
-                                        echo '<div class="vert-center"><div class="custom-content">' . do_shortcode($custom_content) . '</div></div></div></div>';
-                                        //default
-                                    } else { ?>
-
                                     <div class="vert-center">
                                         <?php
-
-                                        $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
-
-                                        if ($lightbox_only != 'true') {
+                                            $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
                                             echo '<a class="default-link" href="' . $the_project_link . '">' . __("Mehr anzeigen", NECTAR_THEME_NAME) . '</a>';
-                                        } ?>
+                                        ?>
 
                                     </div><!--/vert-center-->
                                 </div>
@@ -146,10 +98,6 @@ $bg = get_post_meta($post->ID, '_nectar_header_bg', true);
                                 echo '<p>' . implode(' | ', $metaData) . '</p>';
                                 ?>
                             </div>
-
-                        <?php }
-
-                        ?>
 
                         </div><!--inner-->
                     </div><!--/col-->

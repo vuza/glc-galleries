@@ -41,8 +41,6 @@ get_header();
 
                                 <?php
 
-                                $thumb_size = (!empty($masonry_item_sizing)) ? $masonry_item_sizing : 'portfolio-thumb';
-
                                 if (has_post_thumbnail()) {
                                     echo get_the_post_thumbnail($post->ID, $thumb_size, array('title' => ''));
                                 } //no image added

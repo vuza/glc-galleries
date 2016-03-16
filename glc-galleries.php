@@ -9,7 +9,7 @@
 
 include "glc_cpt.php";
 include "templates/filter.php";
-
+include "initShortcode.php";
 /**
  * TODO
  * Galleries Overview: http://themenectar.com/demo/salient-ascend/portfolio-fullwidth-default/

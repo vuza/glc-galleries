@@ -12,6 +12,7 @@ get_header();
 <div class="container-wrap">
     <div class="container main-content" data-col-num="elastic"/>
         <div class="portfolio-wrap default-style">
+
             <div id="portfolio"
                  class="row portfolio-items no-masonry"
                  data-categories-to-show="<?php echo $project_categories; ?>"
@@ -33,7 +34,7 @@ get_header();
                     ?>
 
                     <div
-                        class="col elastic-portfolio-item element" data-default-color="true"';>
+                        class="col elastic-portfolio-item element" data-default-color="true">
 
                         <div class="inner-wrap animated">
 

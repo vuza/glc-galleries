@@ -57,5 +57,6 @@ function create_metabox_html() {
 add_action('save_post', 'date_metabox_save');
 
 function date_metabox_save($post_id) {
-    update_post_meta($post_id, 'event_date', $_POST['unformatted_event_date']);
+    if($_POST['unformatted_event_date'])
+        update_post_meta($post_id, 'event_date', $_POST['unformatted_event_date']);
 }

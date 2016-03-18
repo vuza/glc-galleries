@@ -9,7 +9,18 @@
 
 include "glc_cpt.php";
 include "templates/filter.php";
-include "initShortcode.php";
+
+// Register shortcode
+function gallery_handler(){
+    ob_start();
+    //run code from template
+    include 'templates/newGalleries.php';
+    $content = ob_get_clean();
+    return $content;
+}
+
+add_shortcode('newgalleries', 'gallery_handler');
+
 /**
  * TODO
  * Galleries Overview: http://themenectar.com/demo/salient-ascend/portfolio-fullwidth-default/

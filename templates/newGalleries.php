@@ -1,52 +1,80 @@
+<style>
+    #newgalleries{
+        margin-left: -10px!important;
+        margin-right: -10px!important;
+        cursor: default;
+    }
+
+    #newgalleries .col {
+        width: 33.3%;
+        display: inline-block;
+        padding: 10px;
+        margin: 0;
+    }
+</style>
+
 <?php
 
-$args = array(
-    'post_type' => 'glc_gallery',
-    'order' => 'DESC',
-    'project-type' => $project_categories,
-);
+// This is a little hack, to work with salient theme
+wp_enqueue_script('isotope');
+wp_enqueue_script('caroufredsel');
 
+$args = array(
+    'post_type'         => 'glc_gallery',
+    'order'             => 'ASC',
+    'posts_per_page'    => 3,
+    'orderby'           => 'meta_value',
+    'meta_key'          => 'event_date',
+    'meta_query'        => array(
+        array(
+            'key'           => 'event_date',
+            'type'          => 'DATETIME'
+        )
+    )
+);
 
 // The Query
 $the_query = new WP_Query($args);
 
-?>
-<div id="portfolio"
-     class="row portfolio-items no-masonry"
-     data-categories-to-show="<?php echo $project_categories; ?>"
-     data-ps="1" data-starting-filter=""
-     data-col-num="elastic">
-    <?php
-    // The Loop
-    if ($the_query->have_posts()) {
+if ( $the_query->have_posts() ): ?>
+    <div id="newgalleries" class="row portfolio-items carousel" data-categories-to-show="all" data-easing="">
 
-        for ($x = 0; $x < 3; $x++) { ?>
+        <?php while ( $the_query->have_posts() ): ?>
+        <li class="col span_4" data-default-color="true" data-title-color="" data-subtitle-color="">
+            <div class="inner-wrap">
+                <div class="work-item">
 
-            <div class="col elastic-portfolio-item element" data-default-color="true">
-                <div class="inner-wrap animated">
-                    <div class="work-item style-1">
-                        <?php
-                        $the_project_link = get_permalink();
-                        if ($the_query->have_posts()) {
+                    <?php $the_query->the_post();
 
-                            $the_query->the_post();
-                            echo get_the_post_thumbnail();
-                        } ?>
-                        <div class="work-info">
-                            <div class="vert-center">
-                                <?php
-                                $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
-                                echo '<a class="default-link" href="' . $the_project_link . '">' . __("Mehr anzeigen", NECTAR_THEME_NAME) . '</a>';
-                                ?>
-                            </div><!--/vert-center-->
-                        </div>
+                        $featured_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+
+                        echo get_the_post_thumbnail();
+                        ?>
+
+                    <div class="work-info-bg"></div>
+                    <div class="work-info">
+                        <div class="vert-center">
+                            <?php
+                            echo '<a class="default-link" href="' . get_permalink() . '">' . __("Mehr anzeigen", NECTAR_THEME_NAME) . '</a>';
+                            ?>
+                        </div><!--/vert-center-->
                     </div>
                 </div>
+                <div class="work-meta">
+                    <h4 class="title"><?php echo get_the_title(); ?></h4>
+                    <?php $locations = get_the_term_list(get_the_ID(), 'location');
+                    if($locations): ?>
+                        <p><?php echo $locations; ?></p>
+                    <?php endif; ?>
+                </div>
             </div>
+        </li>
 
-            <?php
 
-        }
-    } else {
-        echo 'no posts';
-    } ?>
+        <?php endwhile; ?>
+
+    </div>
+<?php endif;
+?>
+
+<?php wp_reset_postdata(); ?>

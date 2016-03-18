@@ -19,6 +19,9 @@ function create_metabox_html() {
     wp_register_style('pikaday', plugins_url( './lib/pikaday/pikaday.css' , __FILE__ ));
     wp_enqueue_style('pikaday');
 
+    wp_register_script('momentjs', plugins_url( './lib/momentjs/moment-with-locales.js' , __FILE__ ));
+    wp_enqueue_script('momentjs');
+
     global $post;
     $post_id = $post->ID;
     ?>
@@ -32,7 +35,10 @@ function create_metabox_html() {
                 field: jQuery('#event_date')[0],
                 onSelect: function() {
                     // Save full date-time-string to hidden input field #unformatted_event_date, which gets read on save_post
-                    jQuery('#unformatted_event_date').val(this.getDate());
+                    var d = this.getDate();
+                    var m = moment(d);
+                    var dString = m.format('YYYY-MM-DD');
+                    jQuery('#unformatted_event_date').val(dString);
                 },
                 i18n: {
                     previousMonth : 'Previous Month',

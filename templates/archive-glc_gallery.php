@@ -1,6 +1,9 @@
 <?php
 /*template name: Portfolio */
 
+wp_register_script('momentjs', plugins_url( './../lib/momentjs/moment-with-locales.js' , __FILE__ ));
+wp_enqueue_script('momentjs');
+
 /**
  * this template is now using project_style "1" and "elastic-porfolio-item" which orders the gallery elements in full-width
  */
@@ -9,26 +12,68 @@ get_header();
 ?>
 <?php nectar_page_header($post->ID); ?>
 
+<style>
+    #days .day{
+        cursor: pointer;
+    }
+
+    .portfolio-filters-inline .container > ul li {
+        padding: 0px 10px;
+        margin: 7px 0px;
+        font-size: 12px;
+        line-height: 14px;
+        display: inline-block;
+    }
+
+    .portfolio-filters-inline:not([data-color-scheme="default"]) ul li {
+        color: #fff;
+        padding: 7px 10px;
+        transition: background-color 0.15s linear, color 0.15s linear;
+    }
+</style>
+
+<?php
+$get_array = array();
+parse_str(substr(strstr($_REQUEST['q'], '/?'), 2), $get_array);
+?>
+
 <div class="container-wrap">
     <div class="container main-content" data-col-num="elastic"/>
+
+        <div class="portfolio-filters-inline full-width-content  first-section" style="margin-left: -90px; width: 1359px; visibility: visible; margin-top: -70px; padding-top: 50px;" instance="0">
+            <div class="container">
+                <span id="current-category">Veranstaltungsdatum</span>
+                <ul id="days"></ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+
         <div class="portfolio-wrap default-style">
 
             <div id="portfolio"
                  class="row portfolio-items no-masonry"
-                 data-categories-to-show="<?php echo $project_categories; ?>"
-                 data-ps="1" data-starting-filter=""
-                 data-col-num="elastic">
+                 data-categories-to-show=""
+                 data-ps="1" data-starting-filter="">
 
                 <?php
                 $portfolio = array(
-                    'posts_per_page' => $posts_per_page,
+                    'posts_per_page' => -1,
                     'post_type' => 'glc_gallery',
-                    'project-type' => $project_categories,
-                    'paged' => $paged
+                    'meta_key' => 'event_date',
+                    'meta_query'        => array(
+                        array(
+                            'key'           => 'event_date',
+                            'compare'       => '=',
+                            'value'         => $get_array['date']
+                        )
+                    )
                 );
 
+                $the_query = new WP_Query($portfolio);
 
-                if (have_posts()) : while (have_posts()) : the_post();
+                if ( $the_query->have_posts() ): while ( $the_query->have_posts() ):
+
+                    $the_query->the_post();
 
                     $the_project_link = get_permalink();
                     ?>
@@ -108,5 +153,31 @@ get_header();
     </div><!--/container-->
 
 </div><!--/container-wrap-->
+<form style="display: none;" id="dateform" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+    <input name="date" type="hidden">
+</form>
+<!-- Generate days -->
+<script>
+    jQuery(document).ready(function(){
+        var day = moment().locale('de');
+        for(var i = 0; i < 7; i++){
+            jQuery('#days').prepend('<li data-date="' + day._d + '" class="day">' + day.format('dd, D.') + '</li>');
+            day.subtract(1, 'days');
+        }
+
+        jQuery('#days .day').click(function(e){
+            e.preventDefault();
+
+            var d = new Date(jQuery(this).attr('data-date'));
+            var m = moment(d);
+            var dString = m.format('YYYY-MM-DD');
+
+            jQuery('input[name="date"]').val(dString);
+            jQuery('#dateform').submit();
+        });
+    });
+</script>
+
+<?php wp_reset_postdata(); ?>
 
 <?php get_footer(); ?>

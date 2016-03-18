@@ -2,15 +2,14 @@
 
 <?php
 
-global $nectar_theme_skin, $options;
-
-$$options = get_nectar_theme_options();
 $cols = 'elastic';
 $span_num = 'elastic-portfolio-item';
 $project_style = '1';
 $masonry_layout = 'false';
 $infinite_scroll_class = null;
 
+// This is a little hack, to work with salient theme
+wp_enqueue_script('isotope');
 ?>
 
     <div class="container-wrap">
@@ -30,7 +29,7 @@ $infinite_scroll_class = null;
                         $images = get_post_gallery_images($post->ID); ?>
 
 
-                        <div class="row portfolio-items" data-categories-to-show="0">
+                        <div class="row portfolio-items" data-categories-to-show="0" data-rcp="false" data-ps="2" data-starting-filter="default" data-col-num="cols-4" instance="0">
                             <?php foreach($images as $image): ?>
                             <div class="col span_3  element applications illustration  one-fourths clear-both" data-title-color="0" data-subtitle-color="0">
                                 <div class="inner-wrap" data-animation="none">

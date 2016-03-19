@@ -38,6 +38,12 @@ get_header();
         padding: 7px 10px;
         transition: background-color 0.15s linear, color 0.15s linear;
     }
+
+    @media only screen and (max-width: 1000px){
+        .container.main-content{
+            margin-top:33px;
+        }
+    }
 </style>
 
 <?php
@@ -79,14 +85,14 @@ if(!$get_array['date']){
 ?>
 
 <div class="container-wrap">
-    <div class="container main-content" data-col-num="elastic"/>
+    <div class="container main-content" data-col-num="elastic" >
 
     <div class="portfolio-filters-inline full-width-content  first-section"
          style="margin-left: -90px; width: 1359px; visibility: visible; margin-top: -70px; padding-top: 50px;"
          instance="0">
         <div class="container">
             <span id="current-category">Veranstaltungsdatum</span>
-            <ul id="days"></ul>
+            <ul id="days"><div class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
             <div class="clear"></div>
         </div>
     </div>
@@ -158,7 +164,6 @@ if(!$get_array['date']){
 
                             <div class="work-info-bg"></div>
                             <div class="work-info">
-
                                 <div class="vert-center">
                                     <?php
                                     $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'full');
@@ -182,7 +187,7 @@ if(!$get_array['date']){
                                 array_push($metaData, $location);
 
                             $date = new DateTime(get_post_meta($post->ID, 'event_date', true));
-                            array_push($metaData, $date->format('m - d - y'));
+                            array_push($metaData, $date->format('d.m.Y'));
 
                             echo '<p>' . implode(' | ', $metaData) . '</p>';
                             ?>
@@ -245,7 +250,7 @@ if(!$get_array['date']){
             if(galleries[day.format('DD.MM.YYYY')])
                 inactive = '';
 
-            jQuery('#days').prepend('<li data-day="' + day.format('YYYY-MM-DD') + '" data-date="' + day._d + '" class="' + inactive + ' day">' + day.format('dd, D.') + '</li>');
+            jQuery('#days .inner').prepend('<li data-day="' + day.format('YYYY-MM-DD') + '" data-date="' + day._d + '" class="' + inactive + ' day">' + day.format('dd, D.') + '</li>');
             day.subtract(1, 'days');
         }
 

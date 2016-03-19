@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLC Galleries
  * Description: Event galleries for GLC
- * Version: 0.0.1
+ * Version: 1.0.0
  * Author: Marlon Alagoda, Niki Themmer
  * License: All private
  */
@@ -20,9 +20,3 @@ function gallery_handler(){
 }
 
 add_shortcode('newgalleries', 'gallery_handler');
-
-/**
- * TODO
- * Galleries Overview: http://themenectar.com/demo/salient-ascend/portfolio-fullwidth-default/
- * Gallery overview (showing images): http://themenectar.com/demo/salient-ascend/portfolio-4-columns/
- */

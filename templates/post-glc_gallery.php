@@ -67,6 +67,12 @@ wp_enqueue_style('lightbox');
                                                 <?php echo $image; ?>
 
                                                 <div class="work-info-bg" style="opacity: 0;"></div>
+                                                <div class="work-info">
+                                                    <div class="vert-center" style="text-align:center">
+                                                        <img style="width:20%; display:inline-block;" src="<?php echo plugin_dir_url(__FILE__); ?>/../../img/arrows.png">
+                                                    </div>
+                                                    <!--/vert-center-->
+                                                </div>
                                             </a>
                                             <!--/vert-center-->
                                         </div>

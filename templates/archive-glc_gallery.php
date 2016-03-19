@@ -4,6 +4,12 @@
 wp_register_script('momentjs', plugins_url('./../lib/momentjs/moment-with-locales.js', __FILE__));
 wp_enqueue_script('momentjs');
 
+wp_register_script('pikaday', plugins_url( './../lib/pikaday/pikaday.js' , __FILE__ ));
+wp_enqueue_script('pikaday');
+
+wp_register_style('pikaday', plugins_url( './../lib/pikaday/pikaday.css' , __FILE__ ));
+wp_enqueue_style('pikaday');
+
 /**
  * this template is now using project_style "1" and "elastic-porfolio-item" which orders the gallery elements in full-width
  */
@@ -43,6 +49,21 @@ get_header();
         .container.main-content{
             margin-top:33px;
         }
+    }
+
+    .is-selected .pika-button {
+        color: #fff;
+        font-weight: bold;
+        background: #27CFC3;
+        box-shadow: inset 0 1px 3px #178fe5;
+        border-radius: 0px;
+    }
+
+    .pika-button:hover {
+        color: #fff;
+        background: #27CFC3;
+        box-shadow: none;
+        border-radius: 0px;
     }
 </style>
 
@@ -92,7 +113,7 @@ if(!$get_array['date']){
          instance="0">
         <div class="container">
             <span id="current-category">Veranstaltungsdatum</span>
-            <ul id="days"><div class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
+            <ul id="days"><input type="hidden" id="pickedDate"><div id="pickaday" class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
             <div class="clear"></div>
         </div>
     </div>
@@ -244,6 +265,7 @@ if(!$get_array['date']){
     ?>
 
     jQuery(document).ready(function () {
+        // Generating day entries
         var day = moment().locale('de');
         for (var i = 0; i < 7; i++) {
             var inactive = 'inactive';
@@ -266,6 +288,32 @@ if(!$get_array['date']){
         });
 
         jQuery('.day[data-day="<?php echo $thisDate; ?>"]').addClass('active');
+
+        // Init calendar
+        var currentDate = new Date('<?php echo $thisDate; ?>');
+        var pikaday = new Pikaday({
+            field: jQuery('#pickedDate')[0],
+            trigger: jQuery('#pickaday')[0],
+            disableDayFn: function(d){
+                return !galleries[moment(d).format('DD.MM.YYYY')];
+            },
+            onSelect: function() {
+                var d = this.getDate();
+                var m = moment(d);
+                var dString = m.format('YYYY-MM-DD');
+
+                d.setHours(0,0,0,0);
+                currentDate.setHours(0,0,0,0);
+                if(d.getTime() == currentDate.getTime()) return;
+
+                jQuery('input[name="date"]').val(dString);
+                jQuery('#dateform').submit();
+            },
+            onOpen: function(){
+                pikaday.gotoDate(currentDate);
+                pikaday.setDate(currentDate);
+            }
+        });
     });
 </script>
 

@@ -12,9 +12,9 @@ function create_photographer_taxonomy() {
         'glc_gallery',
         array(
             'labels' => array(
-                'name' => 'Fotograph' //TODO nicer labels, like "Add new Tag" to "Neuen Fotograph hinzufügen", ...
+                'name' => 'Fotograf' //TODO nicer labels, like "Add new Tag" to "Neuen Fotograph hinzufügen", ...
             ),
-            'rewrite' => array( 'slug' => 'photographer' )
+            'rewrite' => array( 'slug' => 'fotograf' )
         )
     );
 }
@@ -31,7 +31,7 @@ function create_location_taxonomy() {
             'labels' => array(
                 'name' => 'Ort'
             ),
-            'rewrite' => array( 'slug' => 'location' )
+            'rewrite' => array( 'slug' => 'ort' )
         )
     );
 }
@@ -44,9 +44,9 @@ function create_post_type() {
     register_post_type( 'glc_gallery',
         array(
             'labels' => array(
-                'name' => 'Galleries',
-                'singular_name' => 'Gallery',
-                'add_new' => 'Neue Gallerie hinzufügen'
+                'name' => 'Galerien',
+                'singular_name' => 'Galerie',
+                'add_new' => 'Neue Galerie hinzufügen'
             ),
             'public' => true,
             'has_archive' => true,
@@ -55,10 +55,33 @@ function create_post_type() {
                 'editor',
                 'thumbnail'
             ),
-            'rewrite' => array( 'slug' => 'gallery' )
+            'rewrite' => array( 'slug' => 'fotos' )
         )
     );
 }
 
 // Include: Add date in metabox to custom post type
 include "date_metabox.php";
+
+/**
+ * Make date a mandatory field
+ */
+function add_date_notice($location) {
+    remove_filter('redirect_post_location', __FILTER__, '99');
+    return add_query_arg('my_message', 1, $location);
+}
+
+function no_date_notice() {
+    if (!isset($_GET['my_message'])) return;
+
+    switch (absint($_GET['my_message'])) {
+        case 1:
+            $message = 'Invalid post data';
+            break;
+        default:
+            $message = 'Unexpected error';
+    }
+    echo '<div id="notice" class="error"><p>ACHTUNG! Es muss ein Datum gew&auml;hlt werden</p></div>';
+}
+
+add_action('admin_notices', 'no_date_notice');

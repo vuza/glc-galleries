@@ -57,6 +57,9 @@ function create_metabox_html() {
 add_action('save_post', 'date_metabox_save');
 
 function date_metabox_save($post_id) {
-    if($_POST['unformatted_event_date'])
+    if($_POST['unformatted_event_date']) {
         update_post_meta($post_id, 'event_date', $_POST['unformatted_event_date']);
+    } else if(!get_post_meta($post_id, 'event_date', true)) {
+        add_filter('redirect_post_location', 'add_date_notice', '99');
+    }
 }

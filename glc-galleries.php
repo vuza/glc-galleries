@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLC Galleries
  * Description: Event galleries for GLC
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Marlon Alagoda, Niki Themmer
  * License: All private
  */

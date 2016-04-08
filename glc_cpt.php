@@ -11,6 +11,7 @@ function create_photographer_taxonomy() {
         'photographer',
         'glc_gallery',
         array(
+            'hierarchical' => true,
             'labels' => array(
                 'name' => 'Fotograf' //TODO nicer labels, like "Add new Tag" to "Neuen Fotograph hinzufügen", ...
             ),
@@ -28,6 +29,7 @@ function create_location_taxonomy() {
         'location',
         'glc_gallery',
         array(
+            'hierarchical' => true,
             'labels' => array(
                 'name' => 'Ort'
             ),

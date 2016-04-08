@@ -98,7 +98,8 @@ wp_enqueue_style('lightbox');
                 });
 
                 lightbox.option({
-                    showImageNumberLabel: false
+                    showImageNumberLabel: false,
+                    fadeDuration: 0
                 });
             }, 200);
         });

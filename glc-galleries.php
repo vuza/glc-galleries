@@ -11,7 +11,9 @@ include "glc_cpt.php";
 include "templates/filter.php";
 
 // Register shortcode
-function gallery_handler(){
+function gallery_handler($atts){
+    $galleries = (int)$atts['count'];
+
     ob_start();
     //run code from template
     include 'templates/newGalleries.php';

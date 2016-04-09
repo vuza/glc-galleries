@@ -118,7 +118,7 @@ if(!$get_array['date']){
              style="margin-left: -90px; width: 1359px; visibility: visible; margin-top: -70px; padding-top: 50px;"
              instance="0">
             <div class="container">
-                <span id="current-category">Veranstaltungsdatum</span>
+                <span id="current-category">FOTOS</span>
                 <ul id="days"><input type="hidden" id="pickedDate"><div id="pickaday" class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
                 <div class="clear"></div>
             </div>

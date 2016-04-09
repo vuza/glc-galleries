@@ -63,7 +63,7 @@ wp_enqueue_style('lightbox');
                                 <div class="col span_3  element applications illustration  one-fourths clear-both" data-title-color="0" data-subtitle-color="0">
                                     <div class="inner-wrap" data-animation="none">
                                         <div class="work-item style-2" data-custom-content="">
-                                            <a data-title="<a target='_blank' href='https://www.facebook.com/sharer/sharer.php?u=<?php echo $image_src; ?>'><i class='icon-facebook'></i></a>" class="lightbox-wrapper" href="<?php echo $image_src; ?>" data-lightbox="gallery">
+                                            <a data-title="<a target='_blank' href='<?php echo $image_src; ?>'><i class='icon-download'></i></a>    <a target='_blank' href='https://www.facebook.com/sharer/sharer.php?u=<?php echo $image_src; ?>'><i class='icon-facebook'></i></a>" class="lightbox-wrapper" href="<?php echo $image_src; ?>" data-lightbox="gallery">
                                                 <?php echo $image; ?>
 
                                                 <div class="work-info-bg" style="opacity: 0;"></div>

@@ -74,7 +74,9 @@ function add_date_notice($location) {
 }
 
 function no_date_notice() {
-    if (!isset($_GET['my_message'])) return;
+    if (!isset($_GET['my_message']) ||
+        (isset($_GET['post_type']) && $_GET['post_type'] != 'glc_gallery') ||
+        (get_post_type($_GET['post']) && get_post_type($_GET['post']) != 'glc_gallery')) return;
 
     switch (absint($_GET['my_message'])) {
         case 1:

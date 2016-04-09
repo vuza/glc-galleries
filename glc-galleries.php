@@ -9,9 +9,11 @@
 
 include "glc_cpt.php";
 include "templates/filter.php";
+include "ajax/load_galleries.php";
 
 // Register shortcode
-function gallery_handler($atts){
+function gallery_handler($atts)
+{
     $galleries = (int)$atts['count'];
 
     ob_start();

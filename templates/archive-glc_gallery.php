@@ -78,34 +78,7 @@ if($request){
 }
 
 if(!$get_array['date']){
-    // Find last gallery
-    $args = array(
-        'post_type'         => 'glc_gallery',
-        'order'             => 'DESC',
-        'posts_per_page'    => -1,
-        'orderby'           => 'meta_value',
-        'meta_key'          => 'event_date',
-        'meta_query'        => array(
-            array(
-                'key'           => 'event_date',
-                'type'          => 'DATETIME'
-            )
-        )
-    );
-
-    // The Query
-    $the_query = new WP_Query($args);
-
-    if ($the_query->have_posts()) {
-        while ($the_query->have_posts()) {
-            $the_query->the_post();
-
-            $thisDate = date_format(date_create(get_post_meta(get_the_ID(), 'event_date', true)), "Y-m-d");
-            break;
-        }
-    }
-
-    wp_reset_postdata();
+    $thisDate = false;
 } else{
     $thisDate = $get_array['date'];
 }
@@ -118,7 +91,7 @@ if(!$get_array['date']){
              style="margin-left: -90px; width: 1359px; visibility: visible; margin-top: -70px; padding-top: 50px;"
              instance="0">
             <div class="container">
-                <span id="current-category">FOTOS</span>
+                <a href="/fotos"><span id="current-category">FOTOS</span></a>
                 <ul id="days"><input type="hidden" id="pickedDate"><div id="pickaday" class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
                 <div class="clear"></div>
             </div>
@@ -132,25 +105,42 @@ if(!$get_array['date']){
                  data-ps="1" data-starting-filter="">
 
                 <?php
-                $portfolio = array(
-                    'posts_per_page' => -1,
-                    'post_type' => 'glc_gallery',
-                    'meta_key' => 'event_date',
-                    'meta_query' => array(
-                        array(
-                            'key' => 'event_date',
-                            'compare' => '=',
-                            'value' => $thisDate
+                if($thisDate){
+                    $portfolio = array(
+                        'posts_per_page' => -1,
+                        'post_type' => 'glc_gallery',
+                        'meta_key' => 'event_date',
+                        'meta_query' => array(
+                            array(
+                                'key' => 'event_date',
+                                'compare' => '=',
+                                'value' => $thisDate
+                            )
                         )
-                    )
-                );
+                    );
+                } else{
+                    $portfolio = array(
+                        'post_type'         => 'glc_gallery',
+                        'order'             => 'DESC',
+                        'posts_per_page'    => -1,
+                        'orderby'           => 'meta_value',
+                        'meta_key'          => 'event_date',
+                        'meta_query'        => array(
+                            array(
+                                'key'           => 'event_date',
+                                'type'          => 'DATETIME'
+                            )
+                        )
+                    );
+                }
 
                 $the_query = new WP_Query($portfolio);
 
+                $loadedPosts = 0;
                 if ($the_query->have_posts()): while ($the_query->have_posts()):
 
+                    $loadedPosts++;
                     $the_query->the_post();
-
                     $the_project_link = get_permalink();
                     ?>
 
@@ -229,6 +219,13 @@ if(!$get_array['date']){
             <!--/portfolio-->
         </div>
         <!--/portfolio wrap-->
+
+        <?php /*
+        if($loadedPosts <= 20){
+            //TODO theme can't handle dynamic added content
+            echo "<button id='loadMoreGalleries'>Mehr Galerien</button>";
+        }
+        */ ?>
 
     </div><!--/container-->
 
@@ -320,6 +317,23 @@ if(!$get_array['date']){
                 pikaday.setDate(currentDate);
             }
         });
+
+        //Load more galleries
+        //TODO theme can't handle dynamic added content
+        /*jQuery('#loadMoreGalleries').click(function(e){
+            e.preventDefault();
+
+            var data = {
+                action: 'load_galleries',
+                skip: 123
+            };
+
+            jQuery.post('<?php echo admin_url('admin-ajax.php'); ?>', data, function(response) {
+                if(response != false && response != 'false'){
+                    jQuery('#portfolio').append("ANGEHÄNGT");
+                }
+            });
+        });*/
     });
 </script>
 

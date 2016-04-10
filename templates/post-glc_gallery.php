@@ -58,7 +58,7 @@ wp_enqueue_style('lightbox');
                         <div class="row portfolio-items" data-categories-to-show="0" data-rcp="false" data-ps="2" data-starting-filter="default" data-col-num="cols-4" instance="0">
                             <?php foreach($images as $image): ?>
                                 <?php $image_src = wp_get_attachment_image_src( $image, 'full' )[0];
-                                $image = wp_get_attachment_image( $image, 'full' )?>
+                                $image = wp_get_attachment_image( $image, 'medium' )?>
 
                                 <div class="col span_3  element applications illustration  one-fourths clear-both" data-title-color="0" data-subtitle-color="0">
                                     <div class="inner-wrap" data-animation="none">

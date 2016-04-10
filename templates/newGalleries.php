@@ -50,7 +50,7 @@ if ($the_query->have_posts()): ?>
 
                         <?php $the_query->the_post();
 
-                        $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id());
+                        $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'medium');
 
                         echo "<img src='" . $featured_image[0] . "'>";
                         ?>

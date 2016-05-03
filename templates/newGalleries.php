@@ -74,6 +74,10 @@ if ($the_query->have_posts()): ?>
                         if ($location)
                             array_push($metaData, $location);
 
+                        $photographer = get_the_term_list($post->ID, 'photographer');
+                        if($photographer)
+                            array_push($metaData, $photographer);
+
                         $date = new DateTime(get_post_meta($post->ID, 'event_date', true));
                         array_push($metaData, $date->format('d.m.Y'));
 

@@ -134,6 +134,18 @@ if(!$get_array['date']){
                     );
                 }
 
+                // If there is a query on taxonomy, add it!
+                $queried_object = get_queried_object();
+                if($queried_object->taxonomy){
+                    $portfolio['tax_query'] = array(
+                        array(
+                            'taxonomy' => $queried_object->taxonomy,
+                            'field' => 'slug',
+                            'terms' => $queried_object->name
+                        )
+                    );
+                }
+
                 $the_query = new WP_Query($portfolio);
 
                 $loadedPosts = 0;
@@ -202,6 +214,10 @@ if(!$get_array['date']){
                                 $location = get_the_term_list($post->ID, 'location');
                                 if ($location)
                                     array_push($metaData, $location);
+
+                                $photographer = get_the_term_list($post->ID, 'photographer');
+                                if($photographer)
+                                    array_push($metaData, $photographer);
 
                                 $date = new DateTime(get_post_meta($post->ID, 'event_date', true));
                                 array_push($metaData, $date->format('d.m.Y'));

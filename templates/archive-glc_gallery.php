@@ -82,6 +82,47 @@ if(!$get_array['date']){
 } else{
     $thisDate = $get_array['date'];
 }
+
+if($thisDate){
+    $portfolio = array(
+        'posts_per_page' => -1,
+        'post_type' => 'glc_gallery',
+        'meta_key' => 'event_date',
+        'meta_query' => array(
+            array(
+                'key' => 'event_date',
+                'compare' => '=',
+                'value' => $thisDate
+            )
+        )
+    );
+} else{
+    $portfolio = array(
+        'post_type'         => 'glc_gallery',
+        'order'             => 'DESC',
+        'posts_per_page'    => -1,
+        'orderby'           => 'meta_value',
+        'meta_key'          => 'event_date',
+        'meta_query'        => array(
+            array(
+                'key'           => 'event_date',
+                'type'          => 'DATETIME'
+            )
+        )
+    );
+}
+
+// If there is a query on taxonomy, add it!
+$queried_object = get_queried_object();
+if($queried_object->taxonomy){
+    $portfolio['tax_query'] = array(
+        array(
+            'taxonomy' => $queried_object->taxonomy,
+            'field' => 'slug',
+            'terms' => $queried_object->name
+        )
+    );
+}
 ?>
 
 <div class="container-wrap">
@@ -91,7 +132,13 @@ if(!$get_array['date']){
              style="margin-left: -90px; width: 1359px; visibility: visible; margin-top: -70px; padding-top: 50px;"
              instance="0">
             <div class="container">
-                <a href="/fotos"><span id="current-category">FOTOS</span></a>
+                <?php
+                $title = "FOTOS";
+                if($queried_object->taxonomy){
+                    $title .= ' - ' . strtoupper($queried_object->name);
+                }
+                ?>
+                <a href="/fotos"><span id="current-category"><?php echo $title; ?></span></a>
                 <ul id="days"><input type="hidden" id="pickedDate"><div id="pickaday" class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
                 <div class="clear"></div>
             </div>
@@ -105,47 +152,6 @@ if(!$get_array['date']){
                  data-ps="1" data-starting-filter="">
 
                 <?php
-                if($thisDate){
-                    $portfolio = array(
-                        'posts_per_page' => -1,
-                        'post_type' => 'glc_gallery',
-                        'meta_key' => 'event_date',
-                        'meta_query' => array(
-                            array(
-                                'key' => 'event_date',
-                                'compare' => '=',
-                                'value' => $thisDate
-                            )
-                        )
-                    );
-                } else{
-                    $portfolio = array(
-                        'post_type'         => 'glc_gallery',
-                        'order'             => 'DESC',
-                        'posts_per_page'    => -1,
-                        'orderby'           => 'meta_value',
-                        'meta_key'          => 'event_date',
-                        'meta_query'        => array(
-                            array(
-                                'key'           => 'event_date',
-                                'type'          => 'DATETIME'
-                            )
-                        )
-                    );
-                }
-
-                // If there is a query on taxonomy, add it!
-                $queried_object = get_queried_object();
-                if($queried_object->taxonomy){
-                    $portfolio['tax_query'] = array(
-                        array(
-                            'taxonomy' => $queried_object->taxonomy,
-                            'field' => 'slug',
-                            'terms' => $queried_object->name
-                        )
-                    );
-                }
-
                 $the_query = new WP_Query($portfolio);
 
                 $loadedPosts = 0;

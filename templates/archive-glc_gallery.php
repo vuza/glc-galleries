@@ -133,12 +133,12 @@ if($queried_object->taxonomy){
              instance="0">
             <div class="container">
                 <?php
-                $title = "FOTOS";
+                $title = "<a href='/fotos'>FOTOS</a>";
                 if($queried_object->taxonomy){
-                    $title .= ' - ' . strtoupper($queried_object->name);
+                    $title .= ' / <a href="' . get_term_link($queried_object) . '">' . strtoupper($queried_object->name) . '</a>';
                 }
                 ?>
-                <a href="/fotos"><span id="current-category"><?php echo $title; ?></span></a>
+                <span id="current-category"><?php echo $title; ?></span>
                 <ul id="days"><input type="hidden" id="pickedDate"><div id="pickaday" class="icon-calendar" style="cursor:pointer;background: none;vertical-align: sub;"></div><span class="inner"></span></ul>
                 <div class="clear"></div>
             </div>

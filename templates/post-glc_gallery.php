@@ -52,6 +52,21 @@ wp_enqueue_style('lightbox');
 
                         <?php
                         $images = explode(',', get_post_galleries($post->ID, false)[0]['ids']);
+                        if(get_post_galleries($post->ID, false)[0]['orderby'] === 'rand'){
+                            // From: http://stackoverflow.com/questions/6557805/randomize-a-php-array-with-a-seed
+                            function fisherYatesShuffle(&$items, $seed) {
+                                @mt_srand($seed);
+                                for ($i = count($items) - 1; $i > 0; $i--)
+                                {
+                                    $j = @mt_rand(0, $i);
+                                    $tmp = $items[$i];
+                                    $items[$i] = $items[$j];
+                                    $items[$j] = $tmp;
+                                }
+                            }
+
+                            fisherYatesShuffle($images, md5($post->post_modified_gmt));
+                        }
                         ?>
 
 

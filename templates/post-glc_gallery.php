@@ -25,7 +25,7 @@ wp_enqueue_style('lightbox');
                         $meta = array();
 
                         $location = get_the_term_list($post->ID, 'location');
-                        $photographer = get_the_term_list($post->ID, 'photographer');
+                        $photographer = get_the_term_list($post->ID, 'photographer', '', ', ');
 
                         if($location)
                             array_push($meta, $location);

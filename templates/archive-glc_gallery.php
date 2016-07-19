@@ -221,7 +221,7 @@ if($queried_object->taxonomy){
                                 if ($location)
                                     array_push($metaData, $location);
 
-                                $photographer = get_the_term_list($post->ID, 'photographer');
+                                $photographer = get_the_term_list($post->ID, 'photographer', '', ', ');
                                 if($photographer)
                                     array_push($metaData, $photographer);
 

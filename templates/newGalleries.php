@@ -74,7 +74,7 @@ if ($the_query->have_posts()): ?>
                         if ($location)
                             array_push($metaData, $location);
 
-                        $photographer = get_the_term_list(get_the_ID(), 'photographer');
+                        $photographer = get_the_term_list(get_the_ID(), 'photographer', '', ', ');
                         if($photographer)
                             array_push($metaData, $photographer);
 
